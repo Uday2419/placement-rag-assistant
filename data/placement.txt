@@ -1,0 +1,8 @@
+Company X requires a CGPA above 7.5.
+Students must have no active backlogs for Company X.
+
+The college placement cell conducts resume workshops.
+Students can contact the placement cell for interview schedules.
+
+Company Y requires a CGPA above 8.0.
+Company Y allows students with one active backlog.
