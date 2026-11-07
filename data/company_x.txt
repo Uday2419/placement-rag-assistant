@@ -1,0 +1,2 @@
+Company X requires a CGPA above 7.5.
+Students must have no active backlogs.

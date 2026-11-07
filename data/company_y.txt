@@ -1,0 +1,2 @@
+Company Y requires a CGPA above 8.0.
+Company Y allows students with one active backlog.

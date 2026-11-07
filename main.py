@@ -374,31 +374,28 @@ while True:
 # Identify the company mentioned in the question
     company = detect_company(question)
 
-# Retrieve relevant chunks from ChromaDB
-    chunks = retrieve_chunks(
+    retrieved_chunks = retrieve_chunks(
         question,
-        company=company,
+        company=company
     )
 
-# Display retrieval results for debugging
-    if not chunks:
-        print("No relevant chunks were retrieved.")
+    if not retrieved_chunks:
+        print("\nRAG answer:")
+        print("I don't have enough information to answer that.")
 
     else:
-        print("\n--- Retrieved Chunks ---")
-
-        for chunk in chunks:
-            print("Text:", chunk["text"])
-            print("Metadata:", chunk["metadata"])
-            print("Distance:", chunk["distance"])
-            print("-" * 40)
-
-    # Build context for the LLM
         context = "\n\n".join(
-            chunk["text"] for chunk in chunks
+            chunk["text"]
+            for chunk in retrieved_chunks
         )
 
+        answer = generate_answer(question, context)
 
+        if answer is None:
+            print("\nCould not generate an answer with Ollama.")
+        else:
+            print("\nRAG answer:")
+            print(answer)
 
     # --------------------------------------------------
     # 11. Prepare the prompt for general questions
