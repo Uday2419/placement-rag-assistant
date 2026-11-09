@@ -384,37 +384,42 @@ while True:
         print("I don't have enough information to answer that.")
 
     else:
-        context = "\n\n".join(
-            chunk["text"]
-            for chunk in retrieved_chunks
-        )
+        context_parts = []
 
-        answer = generate_answer(question, context)
+        sources = set()
 
-        if answer is None:
-            print("\nCould not generate an answer with Ollama.")
-        else:
-            print("\nRAG answer:")
-            print(answer)
+        for chunk in retrieved_chunks:
+
+            text = chunk["text"]
+
+            source = chunk["metadata"].get(
+                "source", "Unknown"
+            )
+
+            context_parts.append(
+                f"Source: {source}\nInformation: {text}"
+            )
+
+            sources.add(source)
+
+        context = "\n\n".join(context_parts)
 
     # --------------------------------------------------
     # 11. Prepare the prompt for general questions
     # --------------------------------------------------
 
     prompt = f"""
-You are a college placement assistant.
+You are a helpful college placement assistant.
 
-Answer the question using only the provided context.
+Answer the user's question using only the
+provided context.
 
 Rules:
-1. Read the context carefully.
-2. If the context answers the question, give that answer.
-3. Do not contradict the context.
-4. Do not invent facts or requirements.
-5. If the answer is not available in the context,
-   say exactly:
-   "I don't have enough information to answer that."
-6. Give a concise, direct answer.
+1. Do not invent information.
+2. If the context does not contain the answer,
+   say that you don't have enough information.
+3. Give a clear and simple answer.
+4. Do not confuse requirements of different companies.
 
 Context:
 {context}
@@ -434,7 +439,15 @@ Answer:
     answer = generate_answer(question, context)
 
     if answer is None:
-        print("\nCould not generate an answer with Ollama.")
+
+        print("\nCould not generate an answer.")
+
     else:
-        print("\nRAG answer:")
+
+        print("\nRAG Answer:")
         print(answer)
+
+        print("\nSources:")
+
+        for source in sorted(sources):
+            print("-", source)

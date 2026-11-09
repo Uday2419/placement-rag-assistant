@@ -1,5 +1,7 @@
 
 import chromadb
+from document_router import detect_source
+
 from sentence_transformers import SentenceTransformer
 
 from config import (
@@ -23,7 +25,7 @@ collection = db_client.get_collection(
 )
 
 
-def retrieve_chunks(question, company=None):
+def retrieve_chunks(question, company=None, source=None):
     """Retrieve relevant document chunks for a question."""
 
     if collection.count() == 0:
@@ -45,12 +47,13 @@ def retrieve_chunks(question, company=None):
         ],
     }
 
-    # Filter results when a company is specified
-    if company in ("Company X", "Company Y"):
+    # Filter results when a source is specified
+    if source:
         search_args["where"] = {
-            "company": company
+            "source": source
         }
 
+    # Search ChromaDB
     results = collection.query(**search_args)
 
     documents = results["documents"][0]
