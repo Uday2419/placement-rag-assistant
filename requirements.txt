@@ -1,4 +1,5 @@
+fastapi
+uvicorn[standard]
 chromadb
 sentence-transformers
-openai
-python-dotenv
+ollama

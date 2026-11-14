@@ -1,0 +1,18 @@
+
+services:
+  placement-rag:
+    build: .
+    container_name: placement-rag-api
+
+    ports:
+      - "8002:8000"
+
+    environment:
+      OLLAMA_HOST: "http://host.docker.internal:11434"
+
+    volumes:
+      - ./chroma_db:/app/chroma_db
+      - huggingface_cache:/root/.cache/huggingface
+
+volumes:
+  huggingface_cache:

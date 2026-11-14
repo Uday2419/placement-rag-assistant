@@ -1,0 +1,22 @@
+﻿# Environment variables and secrets
+.env
+.env.txt
+
+# Python virtual environment
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# ChromaDB database
+chroma_db/
+
+# IDE and system files
+.vscode/
+.idea/
+.DS_Store
+
+# Logs
+*.log
